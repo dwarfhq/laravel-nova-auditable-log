@@ -18,7 +18,7 @@ class AuditController
 
         abort_if($request->user()->cant('audit', $record), 403, 'Unable to retrieve audits');
 
-        $audits = $record->audits()
+        $audits = $record->laravelaudits()
             ->with('user')
             ->orderBy('created_at', 'desc')
             ->paginate();
@@ -53,7 +53,7 @@ class AuditController
         $auditableClass = Config::get('audit.implementation', Audit::class);
         $auditor = new $auditableClass;
 
-        $audit = $record->audits()->where($auditor->getTable() . '.' . $auditor->getKeyName(), $auditId)->firstOrFail();
+        $audit = $record->laravelaudits()->where($auditor->getTable() . '.' . $auditor->getKeyName(), $auditId)->firstOrFail();
 
         $record->fill(Arr::only($audit->new_values, $request->input('restore', [])));
         $record->save();
