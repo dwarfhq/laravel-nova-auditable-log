@@ -23,7 +23,7 @@ class ToolServiceProvider extends ServiceProvider
                 return true;
             });
             Gate::define('audit_restore', function ($user, $resource) {
-                return true;
+                return false;
             });
         });
 
